@@ -772,7 +772,7 @@ resources:
       # MUST be configured to accept PPv2 from the NLB subnet, otherwise
       # connections drop. Only meaningful for TCP listeners.
       {{- if eq (index $p "_4" | default "") "ppv2" }}
-      isPpv2Enabled: true
+      isPpv2enabled: true
       {{- end }}
     options:
       dependsOn:

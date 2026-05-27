@@ -30,7 +30,7 @@ RUN curl -fsSL https://get.pulumi.com | sh -s -- --version 3.230.0
 ENV PATH="/root/.pulumi/bin:$PATH"
 
 # Pre-warm Pulumi resource plugins (avoids runtime downloads).
-RUN pulumi plugin install resource oci 4.6.0
+RUN pulumi plugin install resource oci 4.12.0
 
 # Copy the single Go binary
 COPY --from=go-build /app/pulumi-ui /usr/local/bin/pulumi-ui
