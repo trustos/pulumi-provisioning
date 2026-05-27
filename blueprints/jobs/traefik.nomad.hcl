@@ -79,6 +79,9 @@ entryPoints:
     address: ":80"
   websecure:
     address: ":443"
+    proxyProtocol:
+      trustedIPs:
+        - "10.0.1.0/24"
   traefik:
     address: ":8080"
 
@@ -337,6 +340,9 @@ entryPoints:
     address: ":80"
   websecure:
     address: ":443"
+    proxyProtocol:
+      trustedIPs:
+        - "10.0.1.0/24"
   traefik:
     address: ":8080"
 
@@ -476,6 +482,9 @@ entryPoints:
     address: ":80"
   websecure:
     address: ":443"
+    proxyProtocol:
+      trustedIPs:
+        - "10.0.1.0/24"
   traefik:
     address: ":8080"
 

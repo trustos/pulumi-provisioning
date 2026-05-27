@@ -96,9 +96,9 @@ meta:
     primaryNodeIps:
       hidden: true
     exposedPorts:
-      ui_type: port-list
+      ui_type: nlb-port-list
       label: "NLB Exposed Ports"
-      description: "Ports exposed publicly on the Network Load Balancer (primary only)"
+      description: "Ports exposed publicly on the Network Load Balancer (primary only). Enable PPv2 on TCP listeners to forward the real client IP to the backend."
       roles: [primary]
     workerPorts:
       ui_type: port-list

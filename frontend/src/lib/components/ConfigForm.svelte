@@ -11,6 +11,7 @@
   import { Combobox } from '$lib/components/ui/combobox';
   import { Button } from '$lib/components/ui/button';
   import PortListEditor from '$lib/components/PortListEditor.svelte';
+  import NlbPortListEditor from '$lib/components/NlbPortListEditor.svelte';
   import AdTagSelector from '$lib/components/AdTagSelector.svelte';
 
   let {
@@ -493,6 +494,9 @@
 
             {:else if field.type === 'port-list'}
               <PortListEditor bind:value={values[field.key]} />
+
+            {:else if field.type === 'nlb-port-list'}
+              <NlbPortListEditor bind:value={values[field.key]} />
 
             {:else if field.type === 'oci-ad-set'}
               {#if adsError}
