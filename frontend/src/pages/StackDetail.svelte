@@ -17,6 +17,7 @@
   import * as Select from '$lib/components/ui/select';
   import EditStackDialog from '$lib/components/EditStackDialog.svelte';
   import WebTerminal from '$lib/components/WebTerminal.svelte';
+  import { copyToClipboard } from '$lib/utils';
 
   let { name }: { name: string } = $props();
 
@@ -658,11 +659,13 @@
     return out;
   });
 
-  function copyToClipboard(text: string) {
-    navigator.clipboard.writeText(text).then(() => {
-      copyState = 'copied';
-      setTimeout(() => { copyState = 'idle'; }, 2000);
-    }).catch(() => {});
+  function copyLines(text: string) {
+    copyToClipboard(text).then((ok) => {
+      if (ok) {
+        copyState = 'copied';
+        setTimeout(() => { copyState = 'idle'; }, 2000);
+      }
+    });
   }
 
   function copyLastOperation() {
@@ -675,12 +678,12 @@
       }
     }
     const slice = lastSep >= 0 ? lines.slice(lastSep) : lines;
-    copyToClipboard(slice.map(l => l.data).join('\n'));
+    copyLines(slice.map(l => l.data).join('\n'));
   }
 
   function copyFullLog() {
     const text = displayLines().map(l => l.data).join('\n');
-    copyToClipboard(text);
+    copyLines(text);
   }
 </script>
 

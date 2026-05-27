@@ -18,6 +18,7 @@
   import SectionEditor from '$lib/components/SectionEditor.svelte';
   import ConfigFieldPanel from '$lib/components/ConfigFieldPanel.svelte';
   import OutputsPanel from '$lib/components/OutputsPanel.svelte';
+  import { copyToClipboard } from '$lib/utils';
   import MonacoEditor from '$lib/components/MonacoEditor.svelte';
   import BlueprintTemplateGallery from '$lib/components/BlueprintTemplateGallery.svelte';
   import { Button } from '$lib/components/ui/button';
@@ -935,9 +936,12 @@
               size="sm"
               class="h-7 text-xs gap-1.5"
               onclick={() => {
-                navigator.clipboard.writeText(yamlText);
-                copyLabel = 'Copied!';
-                setTimeout(() => { copyLabel = 'Copy YAML'; }, 1500);
+                copyToClipboard(yamlText).then((ok) => {
+                  if (ok) {
+                    copyLabel = 'Copied!';
+                    setTimeout(() => { copyLabel = 'Copy YAML'; }, 1500);
+                  }
+                });
               }}
             >{copyLabel}</Button>
           </Tooltip.Trigger>

@@ -9,6 +9,7 @@
   import * as Dialog from '$lib/components/ui/dialog';
   import * as Tooltip from '$lib/components/ui/tooltip';
   import OciImportDialog from '$lib/components/OciImportDialog.svelte';
+  import { copyToClipboard } from '$lib/utils';
 
   let accounts = $state<OciAccount[]>([]);
   let loading = $state(true);
@@ -195,7 +196,7 @@
   }
 
   function copy(text: string) {
-    navigator.clipboard.writeText(text).catch(() => {});
+    copyToClipboard(text);
   }
 </script>
 

@@ -8,6 +8,7 @@
   import { Badge } from '$lib/components/ui/badge';
   import { Alert, AlertDescription } from '$lib/components/ui/alert';
   import * as Tooltip from '$lib/components/ui/tooltip';
+  import { copyToClipboard } from '$lib/utils';
 
   let keys = $state<SshKey[]>([]);
   let loading = $state(true);
@@ -102,7 +103,7 @@
   }
 
   function copy(text: string) {
-    navigator.clipboard.writeText(text).catch(() => {});
+    copyToClipboard(text);
   }
 
   function formatDate(ts: number) {
