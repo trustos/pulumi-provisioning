@@ -281,9 +281,16 @@ config:
     default: ""
 
   # ── Networking ──
+  # Per-port entry shape: "name:protocol:port:healthCheckPort[:ppv2]"
+  # Add the optional 5th token "ppv2" to enable PROXY protocol v2 on
+  # that listener so the backend sees the real client IP instead of the
+  # NLB's private address. Backend (e.g. Traefik) must be configured to
+  # accept PPv2 from the NLB subnet, otherwise connections drop.
+  # Default: enable PPv2 on 443 (HTTPS). 80 stays plain so ACME http-01
+  # challenges + redirects keep working without backend changes.
   exposedPorts:
     type: string
-    default: "http:TCP:80:80;https:TCP:443:443"
+    default: "http:TCP:80:80;https:TCP:443:443:ppv2"
   workerPorts:
     type: string
     default: "hopssh-lighthouse:UDP:42001:42100;hopssh-dns:UDP:15300:15400"
@@ -758,6 +765,15 @@ resources:
       defaultBackendSetName: {{ printf "bs-%s" $p._0 | quote }}
       protocol: {{ $p._1 }}
       port: {{ $p._2 }}
+      # Optional PROXY protocol v2 — enable when the 5th token in the
+      # exposedPorts entry is "ppv2". NLB prepends a PPv2 header to each
+      # TCP connection carrying the original client IP, which the backend
+      # parses to recover real-IP attribution despite NLB SNAT. Backend
+      # MUST be configured to accept PPv2 from the NLB subnet, otherwise
+      # connections drop. Only meaningful for TCP listeners.
+      {{- if eq (index $p "_4" | default "") "ppv2" }}
+      isPpv2Enabled: true
+      {{- end }}
     options:
       dependsOn:
         - ${ingress-nlb-bs-{{ $p._0 }}}
